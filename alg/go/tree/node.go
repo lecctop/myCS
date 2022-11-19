@@ -167,3 +167,59 @@ func same(p *TreeNode, q *TreeNode) bool {
 
 	return left && right
 }
+
+// IsSymmetric 对称二叉树
+//
+// 101. Symmetric Tree
+// https://leetcode.com/problems/symmetric-tree/
+//
+func IsSymmetric(root *TreeNode) bool {
+	if root == nil {
+		return true
+	}
+
+	return symmetric(root.Left, root.Right)
+}
+
+func symmetric(left *TreeNode, right *TreeNode) bool {
+	if left == nil && right == nil {
+		return true
+	}
+
+	if left == nil || right == nil {
+		return false
+	}
+
+	if left.Val == right.Val {
+		is1 := symmetric(left.Left, right.Right)
+		is2 := symmetric(left.Right, right.Left)
+
+		return is1 && is2
+	}
+
+	return false
+}
+
+// SumOfLeftLeaves 左叶子结点的和
+//
+// 404. Sum of Left Leaves
+// https://leetcode.com/problems/sum-of-left-leaves/
+//
+func SumOfLeftLeaves(root *TreeNode) int {
+	return sumLeaves(root.Left, true) + sumLeaves(root.Right, false)
+}
+
+func sumLeaves(root *TreeNode, isLeft bool) int {
+	if root == nil {
+		return 0
+	}
+
+	if root.Left == nil && root.Right == nil && isLeft {
+		return root.Val
+	}
+
+	v1 := sumLeaves(root.Left, true)
+	v2 := sumLeaves(root.Right, false)
+
+	return v1 + v2
+}
